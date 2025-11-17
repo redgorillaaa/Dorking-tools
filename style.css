@@ -1,0 +1,254 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #0a0a0a;
+    color: #00ff00;
+    line-height: 1.6;
+    background-image: linear-gradient(rgba(0, 255, 0, 0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0, 255, 0, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #333;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+    letter-spacing: 2px;
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #00cc00;
+    letter-spacing: 1px;
+}
+
+main {
+    margin-bottom: 40px;
+}
+
+.search-form {
+    background-color: #111111;
+    padding: 30px;
+    border-radius: 0;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #00ff00;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+select, input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #0a0a0a;
+    border: 1px solid #00ff00;
+    border-radius: 0;
+    color: #00ff00;
+    font-size: 1rem;
+    font-family: 'Courier New', monospace;
+}
+
+select:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: #00ff00;
+    box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.3);
+}
+
+input[readonly] {
+    background-color: #252525;
+    color: #9e9e9e;
+}
+
+button {
+    padding: 12px 20px;
+    margin-right: 10px;
+    background-color: #0a0a0a;
+    color: #00ff00;
+    border: 1px solid #00ff00;
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background-color: #00ff00;
+    color: #0a0a0a;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+button:active {
+    background-color: #00cc00;
+    color: #0a0a0a;
+}
+
+.results {
+    background-color: #111111;
+    padding: 30px;
+    border-radius: 0;
+    border: 1px solid #00ff00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+}
+
+.results h2 {
+    margin-bottom: 20px;
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+    letter-spacing: 1px;
+}
+
+#results-container {
+    min-height: 200px;
+    padding: 15px;
+    background-color: #0a0a0a;
+    border-radius: 0;
+    border: 1px solid #003300;
+}
+
+.result-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #111111;
+    border-radius: 0;
+    border-left: 3px solid #00ff00;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.result-item h3 {
+    margin-bottom: 8px;
+    color: #00ff00;
+    padding-right: 40px; /* Make space for checkbox */
+}
+
+.result-item p {
+    color: #00cc00;
+    margin-bottom: 10px;
+    padding-right: 40px; /* Make space for checkbox */
+}
+
+/* Checkbox styles */
+.result-checkbox {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #00ff00;
+    z-index: 10;
+}
+
+.result-item.checked {
+    background-color: #001100;
+    border-left-color: #00cc00;
+}
+
+.result-item.checked h3,
+.result-item.checked p {
+    color: #00cc00;
+    opacity: 0.7;
+}
+
+.result-item:hover {
+    background-color: #001100;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid #003300;
+    color: #00cc00;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #003300;
+    border-radius: 50%;
+    border-top-color: #00ff00;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Terminal cursor effect */
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    background-color: #00ff00;
+    animation: blink 1s infinite;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .search-form, .results {
+        padding: 20px;
+    }
+    
+    button {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+}
