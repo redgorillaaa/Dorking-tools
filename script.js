@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchEngineSelect = document.getElementById('search-engine');
     const domainInput = document.getElementById('domain');
     const generateDorksBtn = document.getElementById('generate-dorks-btn');
+    const generateGamblingDorksBtn = document.getElementById('generate-gambling-dorks-btn');
     const resultsContainer = document.getElementById('results-container');
     
     // Search engine configurations
@@ -199,21 +200,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event listeners
     
-    // Auto-generate when domain or search engine changes
-    domainInput.addEventListener('input', function() {
-        if (domainInput.value.trim()) {
-            generateAllDorks();
-        } else {
-            resultsContainer.innerHTML = '<p>Results will appear here...</p>';
-        }
-    });
-    
-    // Auto-generate when search engine changes
-    searchEngineSelect.addEventListener('change', function() {
-        if (domainInput.value.trim()) {
-            generateAllDorks();
-        }
-    });
+    // Removed auto-generation when domain or search engine changes
+    // Results will only appear when buttons are clicked
     
     // Handle Enter key in domain input
     domainInput.addEventListener('keypress', function(e) {
@@ -226,4 +214,134 @@ document.addEventListener('DOMContentLoaded', function() {
     generateDorksBtn.addEventListener('click', function() {
         generateAllDorks();
     });
+    
+    // Generate gambling dorks button click event
+    generateGamblingDorksBtn.addEventListener('click', function() {
+        generateGamblingDorks();
+    });
+    
+    // Generate gambling-related dorks
+    function generateGamblingDorks() {
+        const domain = domainInput.value.trim();
+        const selectedEngine = searchEngineSelect.value;
+        
+        if (!domain) {
+            showMessage('Please enter a domain.', 'error');
+            return;
+        }
+        
+        const engine = searchEngines[selectedEngine];
+        
+        // Gambling-related keywords
+        const gamblingKeywords = [
+            'gacor', 'slot gacor', 'slot maxwin', 'maxwin', 'jp maxwin', 
+            'slot88', 'rtp slot', 'slot online terpercaya', 'judi online', 
+            'slot online', 'casino online', 'poker online', 'togel online',
+            'situs judi', 'bandar judi', 'agen judi', 'link alternatif',
+            'daftar judi', 'login judi', 'deposit judi', 'withdraw judi',
+            'bonus judi', 'promo judi', 'jackpot', 'freebet', 'mixparlay',
+            'sbobet', 'sabung ayam', 'tembak ikan', 'live casino', 'baccarat',
+            'roulette', 'blackjack', 'domino', 'ceme', 'capsa', 'qq', 'pkv'
+        ];
+        
+        // Dork patterns for gambling detection
+        const dorkPatterns = [
+            'site:{domain} {keyword}',
+            'site:{domain} inurl:{keyword}',
+            'site:{domain} intitle:{keyword}',
+            'site:{domain} "{keyword}"',
+            'site:{domain} *{keyword}*',
+            'site:{domain} {keyword} login',
+            'site:{domain} {keyword} register',
+            'site:{domain} {keyword} daftar',
+            'site:{domain} {keyword} deposit',
+            'site:{domain} {keyword} withdraw',
+            'site:{domain} {keyword} bonus',
+            'site:{domain} {keyword} promo',
+            'site:{domain} {keyword} jackpot',
+            'site:{domain} {keyword} freebet',
+            'site:{domain} {keyword} alternatif',
+            'site:{domain} {keyword} link',
+            'site:{domain} {keyword} apk',
+            'site:{domain} {keyword} mobile',
+            'site:{domain} {keyword} wap',
+            'site:{domain} {keyword} terpercaya',
+            'site:{domain} {keyword} terbaru',
+            'site:{domain} {keyword} terlengkap',
+            'site:{domain} {keyword} resmi',
+            'site:{domain} {keyword} terbaik',
+            'site:{domain} {keyword} teraman',
+            'site:{domain} {keyword} terpopuler',
+            'site:{domain} {keyword} terbesar',
+            'site:{domain} {keyword} terupdate',
+            'site:{domain} {keyword} terkini',
+            'site:{domain} {keyword} terbaru',
+            'site:{domain} {keyword} terlengkap',
+            'site:{domain} {keyword} terpercaya',
+            'site:{domain} {keyword} teraman',
+            'site:{domain} {keyword} terbaik',
+            'site:{domain} {keyword} terpopuler',
+            'site:{domain} {keyword} terbesar',
+            'site:{domain} {keyword} terupdate',
+            'site:{domain} {keyword} terkini'
+        ];
+        
+        let resultsHTML = '';
+        
+        // Generate dorks for each keyword with each pattern
+        gamblingKeywords.forEach(keyword => {
+            dorkPatterns.forEach(pattern => {
+                const dork = pattern.replace('{domain}', domain).replace('{keyword}', keyword);
+                const encodedDork = encodeURIComponent(dork);
+                const dorkLink = `${engine.baseUrl}${encodedDork}`;
+                
+                resultsHTML += `
+                    <div class="result-item" data-url="${dorkLink}">
+                        <input type="checkbox" class="result-checkbox">
+                        <p>${formatDorkName(dork)}</p>
+                    </div>
+                `;
+            });
+        });
+        
+        resultsContainer.innerHTML = resultsHTML;
+        
+        // Restore checked state from localStorage
+        restoreCheckedState();
+        
+        // Add click event to each result item to open in new tab
+        const resultItems = document.querySelectorAll('.result-item');
+        resultItems.forEach(item => {
+            // Add checkbox event listener
+            const checkbox = item.querySelector('.result-checkbox');
+            if (checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        item.classList.add('checked');
+                    } else {
+                        item.classList.remove('checked');
+                    }
+                    saveCheckedState();
+                });
+            }
+            
+            // Make entire result item clickable
+            item.addEventListener('click', function(e) {
+                // Don't trigger if clicking on checkbox
+                if (e.target.type !== 'checkbox') {
+                    const url = this.dataset.url;
+                    if (url) {
+                        window.open(url, '_blank');
+                        // Mark as checked when opened
+                        const checkbox = this.querySelector('.result-checkbox');
+                        if (checkbox && !checkbox.checked) {
+                            checkbox.checked = true;
+                            this.classList.add('checked');
+                            saveCheckedState();
+                        }
+                    }
+                }
+            });
+        });
+    }
 });
